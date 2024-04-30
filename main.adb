@@ -60,12 +60,14 @@ procedure Main is
 
    task body Main_Thread is
       Sum : Long_Long_Integer := 0;
+      Progress : Long_Long_Integer := 0;
    begin
       loop
          Sum := Sum + Progression_Delta;
+	 Progress := Progress + 1;
          exit when Stop_Flag.Get;
       end loop;
-      Put_Line("Runner" & Id'Image & " finished with sum: " & Long_Long_Integer'Image(Sum));
+      Put_Line("Runner" & Id'Image & " finished with sum: " & Long_Long_Integer'Image(Sum) & ", " & Progress'Image & " steps.");
    end Main_Thread;
 
    type Main_Thread_Access is access Main_Thread;
@@ -86,7 +88,7 @@ begin
    Put_Line("");
    Validate_Input("Please enter integer progression delta (1-30):", Progression_Delta);
    Put_Line("");
-
+   Put_Line("Starting runners");
    B1.Start(Wait_Time);
 
    for I in 1 .. Number_Of_Threads loop
